@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microphone Input Demo</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #2c2c2c, #000); /* Black gradient background */
+            color: #ffffff; /* White text color */
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background: linear-gradient(135deg, #1a1a1a, #000); /* Darker gradient for header */
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8); /* Subtle shadow */
+        }
+
+        .home-button {
+            background: linear-gradient(135deg, #444, #222); /* Gradient button background */
+            color: #fff; /* White text color */
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7); /* Soft shadow effect */
+        }
+
+        .home-button:hover {
+            background: linear-gradient(135deg, #666, #333); /* Slightly lighter on hover */
+            transform: scale(1.1); /* Slightly enlarges the button on hover */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #111, #333); /* Dark gradient for container */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8); /* Black glowing effect */
+            border-radius: 15px;
+            margin-top: 80px;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #ffffff; /* White text */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Subtle white glow */
+        }
+
+        button {
+            margin: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #444, #222); /* Dark gradient */
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 25px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7); /* Soft shadow effect */
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #666, #333); /* Lighter gradient on hover */
+            transform: scale(1.1); /* Slightly enlarges the button on hover */
+        }
+
+        #status {
+            margin-bottom: 20px;
+            color: #ffffff; /* White text */
+        }
+
+        audio {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #444; /* Dark border */
+            border-radius: 5px;
+        }
+
+        #homeButton {
+            background: linear-gradient(135deg, #444, #222); /* Dark gradient */
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 25px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+        }
+
+        #homeButton:hover {
+            background: linear-gradient(135deg, #666, #333); /* Slightly lighter on hover */
+            transform: scale(1.1); /* Slightly enlarges the button on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="home-button" onclick="window.location.href='index.html'">Home</button>
+    </header>
+    <div class="container">
+        <h1>Voice Recorder</h1>
+        <button id="start">Start Recording</button>
+        <button id="stop">Stop Recording</button>
+        <p id="status">Status: Idle</p>
+        <audio id="audio" controls></audio>
+    </div>
+
+    <script>
+        document.getElementById('start').onclick = async function() {
+            const status = document.getElementById('status');
+            const audioElement = document.getElementById('audio');
+            status.textContent = 'Status: Recording...';
+
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                status.textContent = 'Status: getUserMedia not supported in this browser.';
+                return;
+            }
+
+            const constraints = { audio: true };
+            let mediaRecorder;
+            let audioChunks = [];
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = function(event) {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = function() {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    audioElement.src = audioUrl;
+                    status.textContent = 'Status: Recording stopped.';
+                };
+
+                mediaRecorder.start();
+            } catch (err) {
+                status.textContent = `Status: Error - ${err.message}`;
+            }
+
+            document.getElementById('stop').onclick = function() {
+                if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop();
+                }
+            };
+        };
+    </script>
+</body>
+</html>

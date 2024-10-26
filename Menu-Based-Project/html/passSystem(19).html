@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Level Password System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #000, #222); /* Gradient background */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        h2 {
+            color: #f5f5f5;
+            text-shadow: 0 0 15px #888; /* Softer glow effect */
+            margin-bottom: 30px;
+            font-size: 2.5em; /* Slightly larger heading */
+        }
+
+        form {
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            width: 90%;
+            max-width: 350px; /* New dimensions */
+            box-sizing: border-box;
+        }
+
+        label {
+            font-weight: normal;
+            color: #ccc;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="password"], select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #333;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #555;
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #444;
+        }
+
+        input[type="checkbox"] {
+            accent-color: #ccc;
+            margin-right: 12px;
+        }
+
+        .home-button {
+            padding: 8px 16px;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+            transition: background-color 0.3s ease;
+            position: absolute;
+            top: 20px;
+            left: 20px; /* Positioned at the top left corner */
+        }
+
+        .home-button:hover {
+            background-color: #444;
+        }
+
+        /* Droplet animation */
+        .droplet {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: rgba(255, 255, 255, 0.7); /* Softer color */
+            border-radius: 50%;
+            animation: drop 4s infinite;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes drop {
+            0% {
+                top: -50px;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="home-button" onclick="window.location.href='index.html'">Home</button>
+    <h2>Secure Password System</h2>
+    <form id="passwordForm" action="/cgi-bin/password_validator.py" method="post">
+        <label for="password">Enter Password:</label>
+        <input type="password" id="password" name="password" required>
+        
+        <label for="examples">Select Example Password:</label>
+        <select id="examples" name="examples" onchange="document.getElementById('password').value = this.value">
+            <option value="">--Select an example--</option>
+            <option value="Password123!">Password123!</option>
+            <option value="StrongP@ssw0rd">StrongP@ssw0rd</option>
+            <option value="MyS3cur3P@ss">MyS3cur3P@ss</option>
+        </select>
+        
+        <div>
+            <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
+            <label for="showPassword">Show Password</label>
+        </div>
+        
+        <input type="submit" value="Submit">
+    </form>
+
+    <div class="droplet" id="droplet1"></div>
+    <div class="droplet" id="droplet2"></div>
+    <div class="droplet" id="droplet3"></div>
+
+    <script>
+        // JavaScript for droplet animation
+        function randomizeDroplet(droplet) {
+            droplet.style.left = Math.random() * 100 + 'vw';
+            droplet.style.animationDuration = Math.random() * 2 + 2 + 's';
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()';
+            droplet.textContent = characters[Math.floor(Math.random() * characters.length)];
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const droplets = document.querySelectorAll('.droplet');
+            droplets.forEach(droplet => {
+                randomizeDroplet(droplet);
+                droplet.addEventListener('animationiteration', () => randomizeDroplet(droplet));
+            });
+
+            // Password validation
+            document.getElementById('passwordForm').addEventListener('submit', function(event) {
+                const password = document.getElementById('password').value;
+                const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
+                if (!passwordCriteria.test(password)) {
+                    alert('Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character.');
+                    event.preventDefault();
+                }
+            });
+        });
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Camera Streaming</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: linear-gradient(135deg, #1c1c1c, #000); /* Black gradient background */
+            color: #ffffff; /* White text color for contrast */
+            text-align: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 20px;
+            color: #ffffff; /* White text */
+            text-shadow: 0 0 10px #ffffff; /* Glowing effect */
+        }
+
+        #videoElement {
+            width: 640px;
+            height: 480px;
+            border: 2px solid rgba(255, 255, 255, 0.5); /* Light border for visibility */
+        }
+
+        #controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        #controls button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.1); /* Dark transparent background for buttons */
+            color: #ffffff; /* White text color */
+            border: 2px solid rgba(255, 255, 255, 0.5); /* Light border */
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        #controls button:hover {
+            background-color: rgba(255, 255, 255, 0.3); /* Lighter transparent background on hover */
+            color: #000; /* Black text on hover */
+            transform: scale(1.1);
+        }
+
+        #recordings {
+            margin-top: 20px;
+        }
+
+        #recordings video {
+            width: 300px;
+            height: 225px;
+            margin: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.5); /* Light border */
+        }
+
+        .home-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.1); /* Dark transparent for home button */
+            color: #ffffff; /* White text */
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 18px;
+            width: 100px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .home-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3); /* Lighter on hover */
+        }
+
+        #saveRecordingButton {
+            background-color: rgba(255, 0, 0, 0.6); /* Semi-transparent red button */
+            color: #fff;
+            border: 2px solid rgba(255, 0, 0, 0.6);
+        }
+
+        #saveRecordingButton:hover {
+            background-color: rgba(255, 0, 0, 0.8); /* More opaque red on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Camera Streaming</h1>
+    <button class="home-btn" onclick="goToHome()">Home</button>
+    <video id="videoElement" autoplay></video>
+    <div id="controls">
+        <button id="startRecording">Start Recording</button>
+        <button id="stopRecording" disabled>Stop Recording</button>
+        <button id="saveRecordingButton" disabled>Save Recording</button>
+    </div>
+    <div id="recordings"></div>
+
+    <script>
+        function goToHome() {
+            window.location.href = 'index.html';
+        }
+
+        const video = document.getElementById('videoElement');
+        const startRecordingButton = document.getElementById('startRecording');
+        const stopRecordingButton = document.getElementById('stopRecording');
+        const saveRecordingButton = document.getElementById('saveRecordingButton');
+        const recordingsContainer = document.getElementById('recordings');
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = () => {
+                    stopRecordingButton.disabled = true;
+                    startRecordingButton.disabled = false;
+                    saveRecordingButton.disabled = false;
+
+                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    recordedChunks = [];
+
+                    const videoElement = document.createElement('video');
+                    videoElement.controls = true;
+                    videoElement.src = URL.createObjectURL(blob);
+                    recordingsContainer.appendChild(videoElement);
+
+                    // Create a download link
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = videoElement.src;
+                    downloadLink.download = 'recording.webm';
+                    downloadLink.textContent = 'Download Recording';
+                    recordingsContainer.appendChild(downloadLink);
+                };
+
+                startRecordingButton.addEventListener('click', () => {
+                    mediaRecorder.start();
+                    stopRecordingButton.disabled = false;
+                    startRecordingButton.disabled = true;
+                    saveRecordingButton.disabled = true;
+                });
+
+                stopRecordingButton.addEventListener('click', () => {
+                    mediaRecorder.stop();
+                });
+
+                saveRecordingButton.addEventListener('click', () => {
+                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'recording.webm';
+                    a.click();
+                    URL.revokeObjectURL(url); // Clean up
+                });
+            })
+            .catch(error => {
+                console.error('Error accessing camera:', error);
+            });
+    </script>
+</body>
+</html>

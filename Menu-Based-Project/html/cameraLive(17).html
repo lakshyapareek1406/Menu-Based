@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Cam</title>
+    <style>
+        body {
+            background: radial-gradient(circle, #000000, #333333, #000000); /* Black gradient background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            color: #CCCCCC; /* Gray text color */
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8); /* Black background with opacity */
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2); /* Subtle white shadow */
+            border-radius: 15px;
+            width: 95%;
+            max-height: 400px;
+            max-width: 800px; /* Adjusted max-width */
+        }
+
+        video {
+            width: 100%;
+            border: 2px solid #444444; /* Dark gray border */
+            border-radius: 10px;
+            background: #000; /* Black background inside video element */
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background: radial-gradient(circle, #000000, #333333, #000000); /* Black gradient background */
+            width: 100%;
+            height: 60px;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            color: #CCCCCC; /* Gray text color */
+        }
+
+        .home-button {
+            background: linear-gradient(135deg, #444444, #111111); /* Dark gray gradient background */
+            color: #CCCCCC; /* Light gray text color */
+            border: 2px solid #444444; /* Dark gray border */
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+
+        .home-button:hover {
+            background: linear-gradient(135deg, #555555, #222222); /* Slightly lighter gray gradient on hover */
+            color: #FFFFFF; /* White text color on hover */
+            transform: scale(1.05); /* Slightly enlarge button on hover */
+        }
+
+        h1 {
+            color: #CCCCCC; /* Gray text color */
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="home-button" onclick="window.location.href = 'index.html'">Home</button>
+    </header>
+    <div class="container">
+        <h1>Live Cam</h1>
+        <video id="video" autoplay></video>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const video = document.getElementById('video');
+
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        video.srcObject = stream;
+                        video.play();
+                    })
+                    .catch(err => {
+                        console.error("Error accessing camera: ", err);
+                    });
+            } else {
+                alert("Sorry, your browser does not support camera access.");
+            }
+        });
+    </script>
+</body>
+</html>

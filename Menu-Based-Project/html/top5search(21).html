@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Search</title>
+    <link rel="icon" href="data:,">
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: linear-gradient(135deg, #000000, #1c1c1c, #333333);
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h2 {
+            color: #4a90e2;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            font-size: 3rem; /* Larger font size */
+            text-shadow: 0 0 10px #4a90e2;
+        }
+
+        #searchQuery {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 2px solid #4a90e2;
+            border-radius: 12px;
+            font-size: 20px;
+            background-color: #222;
+            color: #4a90e2;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        #searchBtn {
+            padding: 12px 25px;
+            font-size: 18px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #searchBtn:hover {
+            background-color: #357abd;
+        }
+
+        #results {
+            width: 90%;
+            max-width: 700px;
+            margin-top: 50px;
+            background-color: #1c1c1c;
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+            padding: 25px;
+            color: #e0e0e0;
+            overflow-y: auto; /* Add scrolling if needed */
+            max-height: 300px; /* Limit the height */
+        }
+
+        #results div {
+            margin-bottom: 25px;
+        }
+
+        #results h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #4a90e2;
+        }
+
+        #results p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        #results a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        #results a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Google Search</h2>
+    <input type="text" id="searchQuery" placeholder="Enter your search query">
+    <button id="searchBtn">Search</button>
+    <div id="results"></div>
+    <script>
+        document.getElementById("searchBtn").addEventListener("click", function() {
+            var query = document.getElementById("searchQuery").value.trim();
+            if (query !== "") {
+                // Fetch data from the Python script
+                fetch('/cgi-bin/top5search.py?query=' + encodeURIComponent(query))
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Search results:", data);
+                    displayResults(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching search results:', error);
+                    document.getElementById("results").innerHTML = "<p>Error fetching results. Please try again.</p>";
+                });
+            } else {
+                alert("Please enter a search query."); // Alert if the input is empty
+            }
+        });
+        function displayResults(results) {
+            var resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "";
+            if (Array.isArray(results) && results.length) {
+                results.forEach(function(result, index) {
+                    var resultDiv = document.createElement("div");
+                    resultDiv.innerHTML = `
+                        <h3>Result ${index + 1}:</h3>
+                        <p>Title: ${result.title}</p>
+                        <p>Link: <a href="${result.link}" target="_blank">${result.link}</a></p>
+                        <p>Snippet: ${result.snippet}</p>
+                    `;
+                    resultsDiv.appendChild(resultDiv);
+                });
+            } else {
+                resultsDiv.innerHTML = "<p>No results found or an error occurred.</p>";
+            }
+        }
+    </script>
+</body>
+</html>

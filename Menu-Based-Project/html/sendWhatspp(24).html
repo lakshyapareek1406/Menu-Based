@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send WhatsApp Message</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #000000, #434343); /* Black gradient background */
+            color: #ffffff; /* White text */
+            font-family: 'Courier New', Courier, monospace; /* Monospace font for hacker feel */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: rgba(17, 17, 17, 0.9); /* Slightly transparent dark grey background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* White glow effect */
+            margin-top: 50px;
+            animation: slidein 1s ease-in-out;
+        }
+
+        @keyframes slidein {
+            0% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff; /* White */
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            color: #ffffff; /* White */
+        }
+
+        .form-group input, .form-group textarea {
+            border-radius: 5px;
+            border: 1px solid #ffffff; /* White border */
+            background-color: #222; /* Dark background for input fields */
+            color: #ffffff; /* White text */
+        }
+
+        .form-group .alert {
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #555, #000); /* Gradient button */
+            border: none;
+            color: #ffffff; /* White text */
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #777, #333); /* Slightly lighter gradient on hover */
+        }
+
+        .home-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: linear-gradient(to right, #555, #000); /* Gradient button */
+            color: #ffffff; /* White text */
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        .home-btn:hover {
+            background: linear-gradient(to right, #777, #333); /* Slightly lighter gradient on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button class="home-btn" onclick="window.location.href='index.html'">Home</button>
+        <h1>Send WhatsApp Message</h1>
+        <form id="whatsappForm">
+            <div class="form-group">
+                <label for="phone">To (WhatsApp number):</label>
+                <input type="text" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="body">Message:</label>
+                <textarea class="form-control" id="body" name="body" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+        <div id="response" class="mt-3"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#whatsappForm').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/cgi-bin/sendWhatsapp.py',
+                    type: 'post',
+                    data: $(this).serialize(),
+                    dataType: 'html',
+                    success: function(response) {
+                        $('#response').html('<div class="alert alert-success">' + response + '</div>');
+                    },
+                    error: function() {
+                        $('#response').html('<div class="alert alert-danger">Error occurred. Please try again.</div>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

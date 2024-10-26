@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S3 Bucket Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #000000, #434343); /* Black gradient background */
+            margin: 0;
+            padding: 20px;
+            color: #ffffff; /* White text for better contrast */
+        }
+        h2 {
+            color: #ffffff; /* White color for headings */
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: #222; /* Dark background for forms */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Light glow effect */
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #ffffff; /* White color for labels */
+        }
+        input[type=text], input[type=file], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #444; /* Dark border */
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #333; /* Dark background for inputs */
+            color: #ffffff; /* White text for inputs */
+        }
+        input[type=submit] {
+            background-color: #007bff; /* Button background color */
+            color: #fff; /* White text */
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type=submit]:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        .result {
+            background-color: #e7f3fe; /* Keep result area light for visibility */
+            border-left: 6px solid #2196F3; /* Keep the left border blue */
+            margin-bottom: 20px;
+            padding: 10px;
+            color: #000; /* Dark text for result area */
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Create a new S3 bucket</h2>
+    <form action="/cgi-bin/createS3bucket.py" method="post">
+        <input type="hidden" name="action" value="create_bucket">
+        <label for="bucket_name">Bucket Name:</label>
+        <input type="text" id="bucket_name" name="bucket_name" required>
+        <input type="submit" value="Create Bucket">
+    </form>
+
+    <h2>Upload a file to S3 bucket</h2>
+    <form action="/cgi-bin/createS3bucket.py" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="upload_file">
+        <label for="bucket_name">Bucket Name:</label>
+        <input type="text" id="bucket_name" name="bucket_name" required>
+        <label for="file">Select File:</label>
+        <input type="file" id="file" name="file" required>
+        <input type="submit" value="Upload File">
+    </form>
+
+    <h2>List files in S3 bucket</h2>
+    <form action="/cgi-bin/createS3bucket.py" method="post">
+        <input type="hidden" name="action" value="list_files">
+        <label for="bucket_name">Bucket Name:</label>
+        <input type="text" id="bucket_name" name="bucket_name" required>
+        <input type="submit" value="List Files">
+    </form>
+</body>
+</html>

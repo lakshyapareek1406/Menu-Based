@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Google Page</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: arial, sans-serif;
+            margin: 0;
+            font-size: 13px;
+        }
+
+        header .topBar {
+            text-align: right;
+            padding: 5px;
+            font-size: 12px;
+            color: rgba(0, 0, 0, .54);
+        }
+
+        header .leftOptions li {
+            display: inline-block;
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        header .leftOptions li a {
+            text-decoration: none;
+            color: #0f0f0f;
+        }
+
+        header .leftOptions input {
+            border: 1px solid #4285f4;
+            font-weight: bold;
+            outline: none;
+            background: #4285f4;
+            background: -webkit-linear-gradient(top, #4387fd, #4683ea);
+            background: linear-gradient(top, #4387fd, #4683ea);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#4387fd, endColorstr=#4683ea, GradientType=0);
+            padding: 6px 12px;
+            font-size: 10px;
+            color: white;
+            border-radius: 1px;
+        }
+
+        header .leftOptions input:hover {
+            -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .15);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, .15);
+        }
+
+        .topBarIcon {
+            display: inline-block;
+            position: relative;
+            height: 14px;
+            width: 14px;
+            vertical-align: middle;
+        }
+
+        .topBarCircle {
+            height: 50px;
+            width: 50px;
+        }
+
+        section .searchArea {
+            text-align: center;
+            margin-top: 55px;
+        }
+
+        section .searchArea .logo img {
+            height: 72px;
+        }
+
+        section .searchArea .searchBox {
+            display: flex;
+        }
+
+        section .searchArea .searchBox .searchBar {
+            width: 120px;
+            flex: 1;
+            align-self: center;
+        }
+
+        section .searchArea .searchBox .searchBar .search {
+            background: #ffffff;
+            border: 1px solid #dfe1e5;
+            box-shadow: none;
+            border-radius: 24px;
+            z-index: 3;
+            height: 32px;
+            margin: 15px auto;
+            width: auto;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        section .searchArea .searchBox .searchBar .search input {
+            border: none;
+            background-color: transparent;
+            margin: 0;
+            padding: 0;
+            color: rgba(0, 0, 0, .87);
+            word-wrap: break-word;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            height: 100%;
+            width: 24em;
+            font-size: 16px;
+        }
+
+        section .searchArea .searchBox .searchBar .search:hover {
+            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+            border-color: rgba(223, 225, 229, 0);
+        }
+
+        section .searchArea .searchButtons button {
+            background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
+            background-color: #f2f2f2;
+            border: 1px solid #f2f2f2;
+            border-radius: 4px;
+            color: #5F6368;
+            font-family: arial, sans-serif;
+            font-size: 14px;
+            margin: 11px 4px;
+            padding: 0 16px;
+            line-height: 27px;
+            height: 30px;
+            min-width: 54px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        section .searchArea .searchButtons button:hover {
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            background-image: -webkit-linear-gradient(top, #f8f8f8, #f1f1f1);
+            background-color: #f8f8f8;
+            border: 1px solid #c6c6c6;
+            color: #222;
+        }
+
+        section .searchArea .languageBar {
+            margin-top: 20px;
+            font-size: 9pt;
+        }
+
+        section .searchArea .languageBar a {
+            margin-left: 5px;
+        }
+
+        .inlineDisplay {
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .searchIconSize {
+            height: 18px;
+            width: 18px;
+        }
+
+        .voiceIconSize {
+            height: 20px;
+            width: 20px;
+        }
+
+        .voiceIconSize:hover {
+            cursor: pointer;
+        }
+
+        footer .footerData {
+            position: absolute;
+            bottom: 0;
+            background: #f2f2f2;
+            line-height: 30px;
+            border-top: 1px solid #e4e4e4;
+            min-width: 400px;
+            width: 100%;
+            font-size: 9pt;
+            color: rgba(0, 0, 0, .54);
+        }
+
+        .leftText,
+        .rightText {
+            display: inline-block;
+        }
+
+        .footerData .countryBar {
+            margin-left: 30px;
+        }
+
+        footer .footerBottom {
+            border-top: 1px solid #e4e4e4;
+        }
+
+        footer .footerBottom a {
+            text-decoration: none;
+            color: rgba(0, 0, 0, .54);
+            margin-left: 30px;
+        }
+
+        footer .footerBottom .rightText {
+            float: right;
+            margin-right: 30px;
+        }
+    </style>
+    <script>
+        function searchGoogle() {
+            const query = document.getElementById('searchInput').value;
+            if (query) {
+                const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                window.location.href = url;
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                searchGoogle();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="topBar">
+            <ul class="leftOptions">
+                <li><a href="#">Gmail</a></li>
+                <li><a href="#">Images</a></li>
+                <li>
+                    <div class="topBarIcon">
+                        <div><a href="#"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22.1 22.1" style="enable-background:new 0 0 22.1 22.1;" xml:space="preserve">
+                                    <style type="text/css">
+                                        .st0 {
+                                            fill: #777777;
+                                        }
+                                    </style>
+                                    <g>
+                                        <path class="st0" d="M5.5,6C5.6,6,5.7,6,5.7,5.9V0.2c0-0.1-0.1-0.1-0.1-0.1H0.1C0.1,0.1,0,0.2,0,0.2v5.6C0,6,0.1,6,0.1,6H5.5z" />
+                                        <path class="st0" d="M13.8,6c0.1,0,0.1-0.1,0.1-0.1V0.2c0-0.1-0.1-0.1-0.1-0.1H8.4c-0.1,0-0.1,0.1-0.1,0.1v5.6C8.2,6,8.3,6,8.4,6 H13.8z" />
+                                        <path class="st0" d="M22,16.1h-5.4c-0.1,0-0.1,0.1-0.1,0.1v5.6c0,0.1,0.1,0.1,0.1,0.1H22c0.1,0,0.1-0.1,0.1-0.1v-5.6 C22.1,16.2,22,16.1,22,16.1z" />
+                                        <path class="st0" d="M13.8,14c0.1,0,0.1-0.1,0.1-0.1V8.2c0-0.1-0.1-0.1-0.1-0.1H8.4c-0.1,0-0.1,0.1-0.1,0.1v5.6c0,0.1,0.1,0.1,0.1,0.1 H13.8z" />
+                                        <path class="st0" d="M5.5,14c0.1,0,0.1-0.1,0.1-0.1V8.2c0-0.1-0.1-0.1-0.1-0.1H0.1C0.1,8.1,0,8.2,0,8.2v5.6c0,0.1,0.1,0.1,0.1,0.1 H5.5z" />
+                                        <path class="st0" d="M13.8,22.1c0.1,0,0.1-0.1,0.1-0.1v-5.6c0-0.1-0.1-0.1-0.1-0.1H8.4c-0.1,0-0.1,0.1-0.1,0.1v5.6c0,0.1,0.1,0.1,0.1,0.1 H13.8z" />
+                                        <path class="st0" d="M5.5,22.1c0.1,0,0.1-0.1,0.1-0.1v-5.6c0-0.1-0.1-0.1-0.1-0.1H0.1c-0.1,0-0.1,0.1-0.1,0.1v5.6c0,0.1,0.1,0.1,0.1,0.1 H5.5z" />
+                                        <path class="st0" d="M22,6c0.1,0,0.1-0.1,0.1-0.1V0.2c0-0.1-0.1-0.1-0.1-0.1h-5.4c-0.1,0-0.1,0.1-0.1,0.1v5.6c0,0.1,0.1,0.1,0.1,0.1 H22z" />
+                                    </g>
+                                </svg></a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="topBarCircle">
+                        <div><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" alt="User Image"></a></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <section>
+        <div class="searchArea">
+            <div class="logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google Logo">
+            </div>
+            <div class="searchBox">
+                <div class="searchBar">
+                    <div class="search">
+                        <span class="inlineDisplay searchIcon">
+                            <svg class="searchIconSize" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+                                <path d="M796 936 548 687q-33 27-76.5 43.5T384 747q-121 0-202.5-81.5T100 463q0-121 81.5-202.5T384 179q121 0 202.5 81.5T668 463q0 48-15.5 91T609 630l248 248-61 58ZM384 666q88 0 148-60t60-143q0-88-60-148t-148-60q-83 0-143 60T181 463q0 83 60 143t143 60Z" />
+                            </svg>
+                        </span>
+                        <input type="text" id="searchInput" onkeypress="handleKeyPress(event)" />
+                        <span class="inlineDisplay voiceIcon">
+                            <svg class="voiceIconSize" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+                                <path d="M480 679q-53 0-91.5-38.5T350 549V366q0-53 38.5-91.5T480 236q53 0 91.5 38.5T610 366v183q0 53-38.5 91.5T480 679Zm-45-226h90v-87h-90v87Zm45 451q-139-15-229.5-118T160 548h70q15 102 90 170t160 68q96 0 160-68t90-170h70q-15 135-105.5 238T525 904v112h-90V904Z" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="searchButtons">
+                <button onclick="searchGoogle()">Google Search</button>
+                <button>I'm Feeling Lucky</button>
+            </div>
+            <div class="languageBar">
+                <div>Google offered in: <a href="#">Français</a> <a href="#">Español</a> <a href="#">Deutsch</a></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footerData">
+            <div class="countryBar">
+                <div>Canada</div>
+            </div>
+            <div class="footerBottom">
+                <div class="leftText">
+                    <a href="#">Advertising</a>
+                    <a href="#">Business</a>
+                    <a href="#">About</a>
+                    <a href="#">How Search works</a>
+                </div>
+                <div class="rightText">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
+

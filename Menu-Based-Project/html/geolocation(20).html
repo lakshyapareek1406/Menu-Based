@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Coordinates</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace; /* Monospace font for hacker feel */
+            background: linear-gradient(135deg, #0f0f0f, #1c1c1c, #2e2e2e); /* Gradient background */
+            color: #e0e0e0; /* Light gray text for contrast */
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+
+        h1 {
+            margin-top: 50px;
+            color: #e0e0e0; /* Light gray text */
+            font-size: 36px; /* Larger font size for emphasis */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Light glow effect */
+        }
+
+        form {
+            display: inline-block;
+            background-color: rgba(0, 0, 0, 0.9); /* Very dark background for form */
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Light shadow */
+            backdrop-filter: blur(8px); /* Frosted glass effect */
+            max-width: 1800px;
+            margin: 20px auto; /* Center form and add margin from top and bottom */
+            position: relative; /* Relative positioning for stacking context */
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 18px;
+            color: #e0e0e0; /* Light gray text */
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px); /* Adjust width to accommodate padding and border */
+            padding: 10px;
+            margin-right: 10px;
+            border: 2px solid #e0e0e0; /* Light gray border */
+            border-radius: 8px;
+            background-color: #1c1c1c; /* Dark gray background for input */
+            color: #e0e0e0; /* Light gray text */
+            font-size: 16px;
+            box-sizing: border-box; /* Ensure padding and border are included in width */
+            transition: background-color 0.3s ease; /* Smooth transition for background color */
+        }
+
+        input[type="text"]:focus {
+            background-color: #2e2e2e; /* Slightly lighter background on focus */
+            outline: none;
+        }
+
+        button {
+            background-color: #e0e0e0; /* Light gray background */
+            color: #000000; /* Black text */
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #c0c0c0; /* Slightly darker gray for hover effect */
+            transform: scale(1.05); /* Slight zoom effect on hover */
+        }
+
+        #homeButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #e0e0e0; /* Light gray background */
+            color: #000000; /* Black text */
+            width: 120px;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+        }
+
+        #homeButton:hover {
+            background-color: #c0c0c0; /* Slightly darker gray for hover effect */
+            transform: scale(1.05); /* Slight zoom effect on hover */
+        }
+
+        #result {
+            background-color: rgba(0, 0, 0, 0.9); /* Very dark background for result area */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Light shadow */
+            max-width: 90%;
+            margin: 30px auto; /* Center result box and add margin from top and bottom */
+            color: #e0e0e0; /* Light gray text */
+            font-size: 18px;
+            word-wrap: break-word;
+            white-space: pre-wrap; /* Preserve whitespace formatting in JSON output */
+        }
+    </style>
+</head>
+<body>
+    <button id="homeButton" onclick="window.location.href='index.html'">Home</button>
+    <h1>Get Coordinates</h1>
+
+    <!-- Form to Input Location -->
+    <form id="locationForm">
+        <label for="location">Enter location:</label>
+        <input type="text" id="location" name="location">
+        <button type="submit">Get Geocoordinates</button>
+    </form>
+
+    <!-- Div to Display Result -->
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('locationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+            var location = document.getElementById('location').value;
+
+            if (location) {
+                fetch('/cgi-bin/geolocation.py?location=' + encodeURIComponent(location))
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            document.getElementById('result').innerText = data.error;
+                        } else {
+                            document.getElementById('result').innerText =
+                                `Latitude: ${data.latitude}, Longitude: ${data.longitude}`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('result').innerText = "An error occurred while fetching the data.";
+                    });
+            } else {
+                document.getElementById('result').innerText = "Please enter a location.";
+            }
+        });
+    </script>
+</body>
+</html> 

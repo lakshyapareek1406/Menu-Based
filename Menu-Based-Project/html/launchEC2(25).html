@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Launch EC2 Instance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type=text], input[type=number], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type=submit] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type=submit]:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Launch a New EC2 Instance</h2>
+    <form action="/cgi-bin/launchEC2.py" method="post">
+        <input type="hidden" name="action" value="launch_instance">
+        <label for="instance_type">Instance Type:</label>
+        <input type="text" id="instance_type" name="instance_type" required>
+
+        <label for="ami_id">AMI ID:</label>
+        <input type="text" id="ami_id" name="ami_id" required>
+
+        <label for="key_name">Key Pair Name:</label>
+        <input type="text" id="key_name" name="key_name" required>
+
+        <label for="security_group">Security Group ID:</label>
+        <input type="text" id="security_group" name="security_group" required>
+
+        <input type="submit" value="Launch Instance">
+    </form>
+</body>
+</html>

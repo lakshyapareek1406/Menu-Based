@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Camera Capture</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000, #1a1a1a, #333333); /* Black gradient background */
+            font-family: 'Courier New', Courier, monospace;
+            color: #ffffff; /* White text color */
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ffffff; /* White text color */
+            margin-top: 20px;
+            font-size: 2em;
+        }
+
+        video, canvas {
+            border: 2px solid #ffffff; /* White border */
+            border-radius: 10px;
+            background: #000; /* Black background for video and canvas */
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5); /* White shadow */
+        }
+
+        button {
+            margin: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #333333, #666666); /* Dark grey gradient background */
+            color: #ffffff; /* White text color */
+            border: 2px solid #ffffff; /* White border */
+            cursor: pointer;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #000000, #1a1a1a); /* Darker black gradient on hover */
+            color: #ffffff; /* White text color on hover */
+            transform: scale(1.05); /* Slightly enlarge button on hover */
+        }
+    </style>
+</head>
+<body>
+    <button id="homeButton" onclick="window.location.href='index.html'">Home</button>
+    <h1>Capture Photo</h1>
+    <video id="video" width="500" height="450" autoplay></video>
+    <button id="capture">Capture Photo</button>
+    <canvas id="canvas" width="500" height="450"></canvas>
+
+    <script>
+        const video = document.getElementById('video');
+        const captureButton = document.getElementById('capture');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(error => {
+                console.error('Error accessing camera:', error);
+            });
+
+        captureButton.addEventListener('click', () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageDataURL = canvas.toDataURL('image/png');
+            console.log(imageDataURL);
+        });
+    </script>
+</body>
+</html>

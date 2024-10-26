@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Enthusiast Profile</title>
+    <style>
+        /* Constants */
+        :root {
+            --primary-color: #FF6F61;
+            --secondary-color: #333;
+            --text-color: #fff;
+            --gradient-bg: linear-gradient(135deg, #000000, #222222);
+        }
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--gradient-bg);
+            color: var(--text-color);
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            line-height: 1.2;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        .hero h1::before {
+            content: '';
+            width: 100px;
+            height: 6px;
+            background-color: var(--primary-color);
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+        }
+
+        .hero h1 span {
+            color: var(--text-color);
+            font-size: 0.6em;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .hero .intro-text {
+            font-size: 1.5em;
+            color: #ddd;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .hero .btn {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 15px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+
+        .hero .btn:hover {
+            background-color: var(--text-color);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .hero img {
+            width: 300px;
+            height: 400px;
+            object-fit: fill;
+            border-radius: 10%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            position: absolute;
+            right: 5%;
+            top: 10%;
+            transition: transform 0.3s ease;
+        }
+
+        .hero img:hover {
+            transform: scale(1.1);
+        }
+
+        .hero::before {
+            content: '';
+            width: 300px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            position: absolute;
+            top: 10%;
+            right: 5%;
+            z-index: -1;
+            border-radius: 10%;
+        }
+
+        /* Skills Section */
+        .skills-section {
+            padding: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 20px;
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .skills-section h2 {
+            grid-column: 1 / -1;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+
+        .skill-box {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .skill-box:hover {
+            background-color: var(--primary-color);
+        }
+
+        .skill-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .skill-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        /* Task Menu */
+        .task-menu {
+            padding: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .task-button {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .task-button:hover {
+            background-color: var(--primary-color);
+        }
+
+        .task-button i {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        /* Wrapper for typing effect */
+        .typing-effect {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid var(--primary-color); /* Simulate cursor */
+            font-family: 'Arial', sans-serif;
+            font-size: 2em;
+            letter-spacing: 3px;
+            animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        /* Typing effect */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Blinking cursor effect */
+        @keyframes blink-caret {
+        50% {
+                border-color: transparent;
+            }
+        }
+
+        /* Media Queries for Mobile */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px;
+                align-items: center;
+                text-align: center;
+            }
+
+            .hero img {
+                position: static;
+                margin-top: 20px;
+                transform: none;
+            }
+
+            .hero h1 {
+                font-size: 3em;
+            }
+
+            .task-menu {
+                padding: 20px;
+            }
+
+            .task-button {
+                font-size: 1em;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div><strong>LAKSHYA PAREEK</strong></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Lakshya Pareek <span class="typing-effect">DevOps and Cloud Enthusiast</span></h1>
+        <p class="intro-text">Passionate about automation, cloud technologies,<br> and continuous integration.<br> Let's solve modern IT challenges together.</p>
+        <a href="https://www.linkedin.com/in/pareek-lakshya" target="_blank" class="btn">LinkedIn</a><br>
+        <a href="https://github.com/lakshyapareek1406" target="_blank" class="btn">Github</a>
+        <img src="/Menu-Based-Project/images/profile-pic (2).png" alt="Profile Image">
+    </section>
+
+    <!-- Skills Section -->
+    <h1 align="center">Skills</h1>
+    <section class="skills-section">
+
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">Docker</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">Kubernetes</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">CI/CD Jenkins</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">AWS CLOUD</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">AWS EC2</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">Python</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">HTML/CSS</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">JavaScript</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">Flask API</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">MongoDB</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">FlutterFlow</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-server skill-icon"></i>
+            <div class="skill-title">UI/UX - Figma</div>
+        </div>
+        <div class="skill-box">
+            <i class="fas fa-cogs skill-icon"></i>
+            <div class="skill-title">C++</div>
+        </div>
+    </section>
+
+
+    <h1 align="center">Tasks Section</h1>
+    <section class="task-menu">
+        <div class="task-button" onclick="window.location.href='aiBot.html'">AI Bot</div>
+        <div class="task-button" onclick="window.location.href='sendSms.html'">Send SMS</div>
+        <div class="task-button" onclick="window.location.href='liveHtmlGenerator.html'">Live HTML Interpreter</div>
+        <div class="task-button" onclick="window.location.href='bulkemail.html'">Bulk E-mail</div>
+        <div class="task-button" onclick="window.location.href='speechToText.html'">Speech to Text</div>
+        <div class="task-button" onclick="window.location.href='linux.html'">Linux Terminal</div>
+        <div class="task-button" onclick="window.location.href='create_iam.html'">Create IAM User</div>
+        <div class="task-button" onclick="window.location.href='createS3bucket.html'">Create S3 Bucket</div>
+        <div class="task-button" onclick="window.location.href='todoList.html'">To-Do List</div>
+        <div class="task-button" onclick="window.location.href='googleClone.html'">Google Clone</div>
+        <div class="task-button" onclick="window.location.href='textToSpeech.html'">Text to Speech</div>
+        <div class="task-button" onclick="window.location.href='voiceRecorder.html'">Audio Recorder</div>
+        <div class="task-button" onclick="window.location.href='videoRecording.html'">Video Recorder</div>
+        <div class="task-button" onclick="window.location.href='pyCalculator.html'">Python Calculator</div>
+        <div class="task-button" onclick="window.location.href='musicPlayer.html'">Music Player</div>
+        <div class="task-button" onclick="window.location.href='snake.html'">Snake Game</div>
+        <div class="task-button" onclick="window.location.href='cameraLive.html'">Camera Live</div>
+        <div class="task-button" onclick="window.location.href='capturePhoto.html'">Capture Image</div>
+        <div class="task-button" onclick="window.location.href='passSystem.html'">Strong Password System</div>
+        <div class="task-button" onclick="window.location.href='geolocation.html'">Geolocation</div>
+        <div class="task-button" onclick="window.location.href='top5search.html'">Search Top 5</div>
+        <div class="task-button" onclick="window.location.href='dragDrop.html'">Drag and Drop</div>
+        <div class="task-button" onclick="window.location.href='myDocker.html'">My Docker</div>
+        <div class="task-button" onclick="window.location.href='sendWhatsapp.html'">Send Whatsapp</div>
+        <div class="task-button" onclick="window.location.href='launchEC2.html'">Launch EC2 Instance</div>
+    </section>
+
+</body>
+</html>
